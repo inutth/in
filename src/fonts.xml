@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+	  <fontFamily name="THSarabun">
+
+	    <normal>org/utt/app/font/THSarabun.ttf</normal>
+
+	    <bold>org/utt/app/font/THSarabunBold.ttf</bold>
+
+	    <italic>org/utt/app/font/THSarabunItalic.ttf</italic>
+
+	    <boldItalic>org/utt/app/font/THSarabunBoldItalic.ttf</boldItalic>
+
+	    <pdfEncoding>identity-H</pdfEncoding>
+
+	    <pdfEmbedded>true</pdfEmbedded>
+
+	  </fontFamily>
+	  <fontFamily name="THSarabunNew">
+
+	    <normal>org/utt/app/font/THSarabunNew.ttf</normal>
+
+	    <bold>org/utt/app/font/THSarabunBoldNew.ttf</bold>
+
+	    <italic>org/utt/app/font/THSarabunItalicNew.ttf</italic>
+
+	    <boldItalic>org/utt/app/font/THSarabunBoldItalicNew.ttf</boldItalic>
+
+	    <pdfEncoding>identity-H</pdfEncoding>
+
+	    <pdfEmbedded>true</pdfEmbedded>
+
+	  </fontFamily>
+
+	</fontFamilies>
