@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import javax.swing.JInternalFrame;
 
 import org.utt.app.dao.DBmanager;
-
+import org.utt.app.opd.ObjectOPD;
 import org.utt.app.util.I18n;
 
 public class AdminFrame extends JInternalFrame {
@@ -25,7 +25,6 @@ public class AdminFrame extends JInternalFrame {
 	 * 
 	 */
 	public AdminFrame() {
-		//init_z515();
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(0, 0, screen.width-5, screen.height-100);
         setPreferredSize(new Dimension(screen.width-5, screen.height-100));
@@ -40,8 +39,9 @@ public class AdminFrame extends JInternalFrame {
 	    setDefaultCloseOperation(HIDE_ON_CLOSE);
 	    
 	    getContentPane().setLayout(new BorderLayout(0, 0));
-	    
+
 	    adminPanel = new AdminPanel();
+
 	    getContentPane().add(adminPanel, BorderLayout.CENTER);
 
 
@@ -51,5 +51,6 @@ public class AdminFrame extends JInternalFrame {
 	    
     	
 	}
+	
 
 }

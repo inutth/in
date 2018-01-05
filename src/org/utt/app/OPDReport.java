@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,6 +34,11 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import org.utt.app.dao.DBmanager;
+
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
+import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
+import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
 public class OPDReport extends JPanel {
 	Dimension screen;
@@ -173,7 +181,7 @@ public class OPDReport extends JPanel {
 		ButtonRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getData();
-				
+				//hack();
 			}
 		});
 		ButtonRefresh.setBounds((450/2-45), 2, 90, 25);
@@ -378,6 +386,29 @@ public class OPDReport extends JPanel {
 		TextField_Report_code.setText("");
 		bgStatus.clearSelection();
 
+	}
+	public void hack() {
+		 String pdf = "C://utthdev//pdf//11.pdf";
+		 String txt = "C://utthdev//text//11.txt";
+		 PdfReader reader;
+		try {
+			reader = new PdfReader(pdf);
+			 PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+		        PrintWriter out = new PrintWriter(new FileOutputStream(txt));
+		        TextExtractionStrategy strategy;
+		        for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+		            strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
+		            out.println(strategy.getResultantText());
+		        }
+		        reader.close();
+		        out.flush();
+		        out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Trans success..");
+	        
 	}
 
 }

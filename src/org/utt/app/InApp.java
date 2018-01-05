@@ -54,11 +54,13 @@ public class InApp extends JFrame {
 	DentalReportFrame dentalReportFrame;
 	IPDFrame ipdFrame;
 	OPDFrame opdFrame;
+	PharFrame pharFrame;
 	ImgFrame imgFrame;
 	AdminFrame adminFrame;
 	ReportFrame reportFrame;
 	EMRFrame emrFrame;
-	JButton ButtonHome,ButtonDental,ButtonIPD,ButtonOPD,ButtonExit,ButtonImg,ButtonControl,ButtonReport,ButtonEMR,ButtonDentalReport,ButtonDentalComm;
+	AppMntFrame appMntFrame;
+	JButton ButtonHome,ButtonDental,ButtonIPD,ButtonOPD,ButtonExit,ButtonImg,ButtonControl,ButtonReport,ButtonEMR,ButtonDentalReport,ButtonDentalComm,ButtonDentalAppMnt;
 	
 	public  static String username = "";
 	public  static String name = "";
@@ -242,8 +244,7 @@ public class InApp extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			opdFrame = new OPDFrame();
-			desktopPane.add(opdFrame);
+			 
 			
 			if(username.equals("")){
 				JOptionPane.showMessageDialog(dialogLogin,"Please check UserName or Password","Password Error",JOptionPane.ERROR_MESSAGE);
@@ -352,6 +353,8 @@ public class InApp extends JFrame {
 			
 		}
 		else if(usertype.trim().equals("8")){
+			opdFrame = new OPDFrame();
+			desktopPane.add(opdFrame);
 			ButtonOPD = new JButton("OPD ");
 			ButtonOPD.setBackground(Setup.getColor());
 			
@@ -365,7 +368,25 @@ public class InApp extends JFrame {
 			setButtonExit();
 			
 		}
+		else if(usertype.trim().equals("81")){
+			pharFrame = new PharFrame();
+			desktopPane.add(pharFrame);
+			ButtonOPD = new JButton("Phar ");
+			ButtonOPD.setBackground(Setup.getColor());
+			
+			ButtonOPD.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")));
+			ButtonOPD.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					pharFrame.setVisible(true);
+				}
+			});
+			toolBar.add(ButtonOPD);
+			setButtonExit();
+			
+		}
 		else if(usertype.trim().equals("83")){
+			opdFrame = new OPDFrame();
+			desktopPane.add(opdFrame);
 			ButtonOPD = new JButton("OPD ");
 			ButtonOPD.setBackground(Setup.getColor());
 			
@@ -386,6 +407,8 @@ public class InApp extends JFrame {
 			desktopPane.add(dentalCommFrame);
 			dentalReportFrame = new DentalReportFrame();
 			desktopPane.add(dentalReportFrame);
+			appMntFrame = new AppMntFrame();
+			desktopPane.add(appMntFrame);
 			 
 			ButtonDental = new JButton(" Dental ");
 			ButtonDental.setBackground(Setup.getColor());
@@ -397,6 +420,7 @@ public class InApp extends JFrame {
 					dentalFrame.initDetalPanel();
 					dentalReportFrame.setVisible(false);
 					dentalCommFrame.setVisible(false);
+					appMntFrame.setVisible(false);
 				}
 			});
 			toolBar.add(ButtonDental);
@@ -411,6 +435,7 @@ public class InApp extends JFrame {
 					dentalFrame.setVisible(false);
 					dentalReportFrame.setVisible(false);
 					dentalCommFrame.setVisible(true);
+					appMntFrame.setVisible(false);
 				}
 			});
 			toolBar.add(ButtonDentalComm);
@@ -424,9 +449,24 @@ public class InApp extends JFrame {
 					dentalFrame.setVisible(false);
 					dentalReportFrame.setVisible(true);
 					dentalCommFrame.setVisible(false);
+					appMntFrame.setVisible(false);
 				}
 			});
 			toolBar.add(ButtonDentalReport);
+			
+			ButtonDentalAppMnt = new JButton(" Dental AppMnt ");
+			ButtonDentalAppMnt.setBackground(Setup.getColor());
+			
+			ButtonDentalAppMnt.setIcon(new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")));
+			ButtonDentalAppMnt.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					appMntFrame.setVisible(true);
+					dentalFrame.setVisible(false);
+					dentalReportFrame.setVisible(false);
+					dentalCommFrame.setVisible(false);
+				}
+			});
+			toolBar.add(ButtonDentalAppMnt);
 			
 			
 			setButtonExit();

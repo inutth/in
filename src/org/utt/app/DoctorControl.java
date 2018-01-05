@@ -51,7 +51,7 @@ import javax.swing.table.TableColumnModel;
 import org.utt.app.dao.DBmanager;
 import org.utt.app.util.Setup;
 
-public class UserControl extends JPanel {
+public class DoctorControl extends JPanel {
 	Dimension screen;
 	JRadioButton userStatus1,userStatus2,ButtonStatus1,ButtonStatus2;
 	ButtonGroup bg = new ButtonGroup();
@@ -63,12 +63,8 @@ public class UserControl extends JPanel {
 	Vector<Vector<String>> data;
 	String userStatus="where status='1' ",username="",user_control="",op="",user_status="1";
 	JPanel midPanel,ButtomPanel,ReportPanel,ButtonReportPanel;
-	JLabel Label_Username,Label_Password,Label_Name,Label_Position,Label_Type,Label_Clinic_code,Label_Report_code,Label_Certifyno,Label_Status;
-	JTextField TextField_ID,TextField_Username,TextField_Password,TextField_Name,TextField_Position,TextField_Type,TextField_Clinic_code,TextField_Report_code,TextField_Certifyno;
-	String [][] clinic_indb=null ;
-	String [][] clinic_userold=null ;
-	String [][] clinic_usernew=null ;
-	String [][] clinic_userdiff=null ;
+	JLabel Label_Code,Label_DoctorName,Label_Status;
+	JTextField TextField_ID,TextField_Code,TextField_DoctorName;
 	String [][] ward_indb=null ;
 	String [][] ward_userold=null ;
 	String [][] ward_usernew=null ;
@@ -81,7 +77,7 @@ public class UserControl extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public UserControl() {
+	public DoctorControl() {
 		user_control="0";
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		setPreferredSize(new Dimension(screen.width, screen.height-175));
@@ -130,10 +126,10 @@ public class UserControl extends JPanel {
 		columnNames = new Vector<String>();
   		columnNames.add("ที่");
   		columnNames.add(" ");
-		columnNames.add(" UserName ");
+		columnNames.add(" Code ");
 		columnNames.add(" ");
-		columnNames.add(" ชื่อ ");
-		for (int n = 5; n < 12; n++) {	
+		columnNames.add(" Doctor Name ");
+		for (int n = 5; n < 7; n++) {	
 			columnNames.add(" ");
 		}
 		
@@ -149,7 +145,7 @@ public class UserControl extends JPanel {
 				if (!isRowSelected(row)){
 					c.setBackground(getBackground());
 					int modelRow = convertRowIndexToModel(row);
-					String type = (String)getModel().getValueAt(modelRow, 6);
+					String type = (String)getModel().getValueAt(modelRow, 4);
 					String status=type.trim();					  
 					if ("1".equals(status)){
 						c.setBackground(new Color(240, 248, 255));						
@@ -166,27 +162,22 @@ public class UserControl extends JPanel {
 		        ClearTextField();
 		        TextField_ID.setEditable(false);
 		        TextField_ID.setText(table.getValueAt(row,1).toString().trim());
-		        TextField_Username.setEditable(false);
-		        TextField_Username.setText(table.getValueAt(row,2).toString().trim());
-		        TextField_Password.setText(table.getValueAt(row,3).toString().trim());
-		        TextField_Name.setText(table.getValueAt(row,4).toString().trim());
-		        TextField_Position.setText(table.getValueAt(row,5).toString().trim());
-		        TextField_Type.setText(table.getValueAt(row,6).toString().trim());
-		        TextField_Clinic_code.setText(table.getValueAt(row,7).toString().trim());
-		        TextField_Report_code.setText(table.getValueAt(row,9).toString().trim());
-		        TextField_Certifyno.setText(table.getValueAt(row,10).toString().trim());
-		        if(table.getValueAt(row,11).toString().trim().equals("1")){
+		        TextField_Code.setEditable(false);
+		        TextField_Code.setText(table.getValueAt(row,2).toString().trim());
+		        TextField_DoctorName.setText(table.getValueAt(row,4).toString().trim());
+		        //TextField_Type.setText(table.getValueAt(row,6).toString().trim());
+		        //TextField_Clinic_code.setText(table.getValueAt(row,7).toString().trim());
+		        //TextField_Report_code.setText(table.getValueAt(row,9).toString().trim());
+		        //TextField_Certifyno.setText(table.getValueAt(row,10).toString().trim());
+		        if(table.getValueAt(row,6).toString().trim().equals("1")){
 		        	ButtonStatus1.setSelected(true);
 		        }else{
 		        	ButtonStatus2.setSelected(true);
 		        }
 		        username=table.getValueAt(row,2).toString().trim();
-		        op=table.getValueAt(row,6).toString().trim();
-		        if(op.equals("6")){
-		        	setAppCodeIPD(table.getValueAt(row,2).toString().trim());
-		        }else{
-		        	setAppCode(table.getValueAt(row,2).toString().trim());
-		        }
+		        
+		        setAppCodeIPD(table.getValueAt(row,2).toString().trim());
+		        
 		         
 		       
 			}
@@ -232,53 +223,19 @@ public class UserControl extends JPanel {
 		Label_ID.setBounds(20, 45, 80, 20);
 		midPanel.add(Label_ID);
 		
-		Label_Username = new JLabel("Username");
-		Label_Username.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Username.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Username.setBounds(20, 75, 80, 20);
-		midPanel.add(Label_Username);
+		Label_Code = new JLabel("Code");
+		Label_Code.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		Label_Code.setHorizontalAlignment(SwingConstants.LEFT);
+		Label_Code.setBounds(20, 75, 80, 20);
+		midPanel.add(Label_Code);
 		
-		Label_Password = new JLabel("Password");
-		Label_Password.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Password.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Password.setBounds(20, 105, 80, 20);
-		midPanel.add(Label_Password);
+		Label_DoctorName = new JLabel("Doctor Name");
+		Label_DoctorName.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		Label_DoctorName.setHorizontalAlignment(SwingConstants.LEFT);
+		Label_DoctorName.setBounds(20, 105, 80, 20);
+		midPanel.add(Label_DoctorName);
 		
-		Label_Name = new JLabel("Name");
-		Label_Name.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Name.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Name.setBounds(20, 135, 80, 20);
-		midPanel.add(Label_Name);
-		
-		Label_Position = new JLabel("Position");
-		Label_Position.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Position.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Position.setBounds(20, 165, 80, 20);
-		midPanel.add(Label_Position);
-		
-		Label_Type = new JLabel("Type");
-		Label_Type.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Type.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Type.setBounds(20, 195, 80, 20);
-		midPanel.add(Label_Type);
-		
-		Label_Clinic_code = new JLabel("Clinic_code");
-		Label_Clinic_code.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Clinic_code.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Clinic_code.setBounds(20, 225, 80, 20);
-		midPanel.add(Label_Clinic_code);
-		
-		Label_Report_code = new JLabel("Report_code");
-		Label_Report_code.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Report_code.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Report_code.setBounds(20, 255, 80, 20);
-		midPanel.add(Label_Report_code);
-		
-		Label_Certifyno = new JLabel("Cert No.");
-		Label_Certifyno.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		Label_Certifyno.setHorizontalAlignment(SwingConstants.LEFT);
-		Label_Certifyno.setBounds(20, 285, 80, 20);
-		midPanel.add(Label_Certifyno);
+		 
 		
 		Label_Status = new JLabel("Status");
 		Label_Status.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -291,39 +248,16 @@ public class UserControl extends JPanel {
 		TextField_ID.setBounds(110, 45, 100, 20);
 		midPanel.add(TextField_ID);
 		
-		TextField_Username = new JTextField();
-		TextField_Username.setEditable(false);
-		TextField_Username.setBounds(110, 75, 100, 20);
-		midPanel.add(TextField_Username);
+		TextField_Code = new JTextField();
+		TextField_Code.setEditable(false);
+		TextField_Code.setBounds(110, 75, 100, 20);
+		midPanel.add(TextField_Code);
 		
-		TextField_Password = new JTextField();
-		TextField_Password.setBounds(110, 105, 100, 20);
-		midPanel.add(TextField_Password);
+		TextField_DoctorName = new JTextField();
+		TextField_DoctorName.setBounds(110, 105, 200, 20);
+		midPanel.add(TextField_DoctorName);
 		
-		TextField_Name = new JTextField();
-		TextField_Name.setBounds(110, 135, 200, 20);
-		midPanel.add(TextField_Name);
-		
-		TextField_Position = new JTextField();
-		TextField_Position.setBounds(110, 165, 150, 20);
-		midPanel.add(TextField_Position);
-		
-		TextField_Type = new JTextField();
-		TextField_Type.setBounds(110, 195, 150, 20);
-		midPanel.add(TextField_Type);
-		
-		TextField_Clinic_code = new JTextField();
-		TextField_Clinic_code.setBounds(110, 225, 150, 20);
-		midPanel.add(TextField_Clinic_code);
-		
-		TextField_Report_code = new JTextField();
-		TextField_Report_code.setBounds(110, 255, 150, 20);
-		midPanel.add(TextField_Report_code);
-		
-		TextField_Certifyno = new JTextField();
-		TextField_Certifyno.setBounds(110, 285, 150, 20);
-		midPanel.add(TextField_Certifyno);
-		
+		 
 		ButtonStatus1 = new JRadioButton("Enable");
 		ButtonStatus1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -401,19 +335,22 @@ public class UserControl extends JPanel {
 		btnNew = new JButton("New");
 		btnNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TextField_Username.setEditable(true);
+				TextField_ID.setEditable(true);
+				TextField_Code.setEditable(true);
 				ClearTextField();
 				user_control="1";
 			}
 		});
 		btnNew.setBounds(20, 376, 60, 23);
+		btnNew.setEnabled(false);
 		midPanel.add(btnNew);
 		
 		btnClear = new JButton("Clear");
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				user_control="0";
-				TextField_Username.setEditable(false);
+				TextField_ID.setEditable(false);
+				TextField_Code.setEditable(false);
 				ClearTextField();
 			}
 		});
@@ -423,6 +360,7 @@ public class UserControl extends JPanel {
 		btnDel = new JButton("Del");
 		btnDel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				/**
 				String username=TextField_Username.getText().trim();
 				String sql_deluser = "update INACCOUNT set status = '3'where username='"+username+"'";
 				try {
@@ -436,19 +374,23 @@ public class UserControl extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				TextField_Username.setEditable(false);
+				*/
+				TextField_ID.setEditable(false);
+				TextField_Code.setEditable(false);
 				user_control="0";
 				ClearTextField();
 			}
 		});
 		btnDel.setBounds(20, 444, 60, 23);
+		btnDel.setEnabled(false);
 		midPanel.add(btnDel);
 		
 		btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				user_control="0";
-				TextField_Username.setEditable(false);
+				TextField_ID.setEditable(false);
+				TextField_Code.setEditable(false);
 				getData();
 				ClearTextField();
 			}
@@ -459,7 +401,7 @@ public class UserControl extends JPanel {
 		ReportPanel = new JPanel();
 		ReportPanel.setBorder(new TitledBorder(null, "Report", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		ReportPanel.setBounds(357, 228, 461, 200);
-		midPanel.add(ReportPanel);
+		//midPanel.add(ReportPanel);
 		ReportPanel.setLayout(null);
 		
 		fromReport = new DefaultListModel();
@@ -522,7 +464,7 @@ public class UserControl extends JPanel {
 		columnModel.getColumn(3).setMaxWidth(0);
 		columnModel.getColumn(4).setPreferredWidth((screen.width*2)/10-120);
 		
-		for (int n = 4; n < 11; n++) {	
+		for (int n = 4; n < 6; n++) {	
 			columnModel.getColumn(n+1).setPreferredWidth(0);
 			columnModel.getColumn(n+1).setMinWidth(0);
 			columnModel.getColumn(n+1).setMaxWidth(0);
@@ -533,7 +475,7 @@ public class UserControl extends JPanel {
 		Connection conn;
 		PreparedStatement stmt,stmt1;
 		ResultSet rs,rs1;
-		String query = "select id,username,password,name,position,type,clinic_code,app_code,report_code,certifyno,status from inaccount "+userStatus+" order by id" ;
+		String query = "select id,doctor_id,department,doctor_name,remark,status from doctor "+userStatus+" order by id" ;
 		
 		
 		Vector<Vector<String>> data = new Vector<Vector<String>>();
@@ -552,11 +494,6 @@ public class UserControl extends JPanel {
 	            vstring.add("  "+rs.getString(4));
 	            vstring.add("  "+rs.getString(5));
 	            vstring.add("  "+rs.getString(6));
-	            vstring.add("  "+rs.getString(7));
-	            vstring.add("  "+rs.getString(8));
-	            vstring.add("  "+rs.getString(9));
-	            vstring.add("  "+rs.getString(10));
-	            vstring.add("  "+rs.getString(11));
 	            
 	             
 	            data.add(vstring);
@@ -572,14 +509,8 @@ public class UserControl extends JPanel {
 	}
 	public void ClearTextField(){
 		TextField_ID.setText("");
-		TextField_Username.setText("");
-		TextField_Password.setText("");
-		TextField_Name.setText("");
-		TextField_Certifyno.setText("");
-		TextField_Position.setText("");
-		TextField_Type.setText("");
-		TextField_Clinic_code.setText("");
-		TextField_Report_code.setText("");
+		TextField_Code.setText("");
+		TextField_DoctorName.setText("");
 		bgStatus.clearSelection();
 		move.clear();
 		from.clear();
@@ -588,40 +519,12 @@ public class UserControl extends JPanel {
 	public void setInit(){
 		int p=0,p1=0;
 		Connection conn3;
-		PreparedStatement stmt31,stmt32;
-		ResultSet rs31,rs32,rs33,rs34;
+		PreparedStatement stmt32;
+		ResultSet rs33,rs34;
 		String query31="select code,thainame from sysconfig where ctrlcode=?";
 		try {
 		
 			conn3 = new DBmanager().getConnMSSql();
-			stmt31 = conn3.prepareStatement(query31);
-			stmt31.setString(1, "20016"); 
-			rs31 = stmt31.executeQuery();
-			while (rs31.next()) {
-				p++;
-			}
-			rs31.close();
-			clinic_indb = new String [p][2];
-			rs32 = stmt31.executeQuery();
-			int pp=0;
-			while (rs32.next()) {
-				 
-				if(rs32.getString(1)==null || rs32.getString(1).equals("")){
-					clinic_indb[pp][0]="";
-				}else{
-					clinic_indb[pp][0]=rs32.getString(1);
-				}
-				if(rs32.getString(2)==null || rs32.getString(2).equals("")){
-					clinic_indb[pp][1]="";
-				}else{
-					clinic_indb[pp][1]=rs32.getString(2).substring(1).trim();
-				}
-				 
-				 
-				pp++;
-			}
-			rs32.close();
-			stmt31.close();
 			 
 			//ward
 			stmt32 = conn3.prepareStatement(query31);
@@ -742,112 +645,74 @@ public class UserControl extends JPanel {
             return true;
         } 
 	}
-	public void setAppCode(String username){
-		move.clear();
-		from.clear();
-		int p=0,p1=0;		 
-		String un=username;
-		Connection conn3;
-		PreparedStatement stmt31,stmt32;
-		ResultSet rs31,rs32,rs33,rs34;
-		String query31="select app_code from inaccount where username=?";
-		try {
+
+	public void saveUser(){
+		int check_username=0;
 		
-			conn3 = new DBmanager().getConnMySql();
-			stmt31 = conn3.prepareStatement(query31);
-			stmt31.setString(1,un); 
-			rs31 = stmt31.executeQuery();
-			String[] parts=null;
-			while (rs31.next()) {
-				String clinic_from="";
-				if(rs31.getString(1)==null || rs31.getString(1).trim().equals("")){
-					clinic_from="0100,";
-				}else{
-					clinic_from=rs31.getString(1).trim();
-				}
-				parts = clinic_from.split("\\,");
+		
+
+		String appcode="";
+		String a[]=null;
+		 
+			ListModel model = moveTo.getModel();
+			a = new String[model.getSize()];
+			for(int i=0;i<model.getSize();i++){
+				//System.out.println(model.getElementAt(i)); 
 				 
-			}
-			rs31.close();
-			clinic_usernew = new String [parts.length][2];
-			
-			for(int i=0;i<clinic_indb.length;i++){
-				for(int j=0;j<parts.length;j++){
-					if(clinic_indb[i][0].equals(parts[j])){
-						clinic_usernew[j][0]=parts[j];
-						clinic_usernew[j][1]= clinic_indb[i][1];
+				for(int j=0;j<ward_indb.length;j++){
+					if(model.getElementAt(i).toString().trim().equals(ward_indb[j][1].trim())){
+						appcode+=ward_indb[j][0]+","; 
+						a[i]=ward_indb[j][0];
 					}
-				}				 
+				}	  
 			}
-			clinic_userold = clinic_indb;
-			Collection totalList = new ArrayList() {{
-				for(int j=0;j<clinic_userold.length;j++){
-					add(clinic_userold[j][0]);
-				}
-			}};
-			Collection newList = new ArrayList() {{
-				for(int j=0;j<clinic_usernew.length;j++){
-					add(clinic_usernew[j][0]);
-				}
-			}};
-			
-			totalList.removeAll(newList);
-			
-			
-			Object[] totalA= new String [totalList.size()];
-			totalA=totalList.toArray();
-			clinic_userdiff = new String [totalA.length][2];
-			
-			for(int i=0;i<clinic_indb.length;i++){
-				for(int j=0;j<totalA.length;j++){
-					if(clinic_indb[i][0].equals(totalA[j])){
-						clinic_userdiff[j][0]=totalA[j].toString().trim();
-						clinic_userdiff[j][1]= clinic_indb[i][1];
+		
+		//System.out.println(appcode);
+		Connection conn1;
+		PreparedStatement  stmt3,stmt_user_check;
+		ResultSet rs_user_check,rs;
+		
+		conn1 =new DBmanager().getConnMySql();
+		
+		String id_new=TextField_ID.getText().trim();
+		String code_new=TextField_Code.getText().trim();
+		String doctorname_new=TextField_DoctorName.getText().trim();
+		
+		String sql_="select department from doctor where id='"+id_new+"' and doctor_id='"+code_new+"' and doctor_name='"+doctorname_new+"'";
+		String depart="";
+		try {
+			stmt3 = conn1.prepareStatement(sql_);
+			rs = stmt3.executeQuery();
+			int p=1;
+			 
+			while (rs.next()) {
+				String de="";
+				de=rs.getString(1).trim();
+				for(int i=0;i<a.length;i++){
+					//System.out.println(de+"-----"+a[i]);
+					if(de.equals(a[i])) {
+						System.out.println(de+"-ininin-"+a[i]);
+						break;
 					}
-				}				 
+					else {
+						System.out.println(de+"-notin-"+a[i]);
+					}
+					  
+				}	
+				 
+				//depart+=rs.getString(1).trim();
+				//System.out.println("-in-"+de);
 			}
-			
-			stmt31.close();			
-			conn3.close();
+			stmt3.close();
+			conn1.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(int i=0;i<clinic_userdiff.length;i++){
-			from.add(0,clinic_userdiff[i][1]);
-		}
-		for(int i=0;i<clinic_usernew.length;i++){
-			move.add(0,clinic_usernew[i][1]);
-		}
-	
-	}
-	public void saveUser(){
-		int check_username=0;
-
-		String appcode="";
-		if(op.equals("6")){
-			ListModel model = moveTo.getModel();
-			for(int i=0;i<model.getSize();i++){
-				//System.out.println(model.getElementAt(i)); 
-				for(int j=0;j<ward_indb.length;j++){
-					if(model.getElementAt(i).toString().trim().equals(ward_indb[j][1].trim())){
-						appcode+=ward_indb[j][0]+","; 
-					}
-				}	  
-			}
-		}else{
-			ListModel model = moveTo.getModel();
-			for(int i=0;i<model.getSize();i++){
-				//System.out.println(model.getElementAt(i)); 
-				for(int j=0;j<clinic_indb.length;j++){
-					if(model.getElementAt(i).toString().trim().equals(clinic_indb[j][1].trim())){
-						appcode+=clinic_indb[j][0]+","; 
-					}
-				}	  
-			}
-		}
+		//System.out.println(appcode+"-in-"+depart);
 		 
 		
+/**		
 		Connection conn1;
 		PreparedStatement  stmt3,stmt_user_check;
 		ResultSet rs_user_check;
@@ -934,7 +799,7 @@ public class UserControl extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	*/	
 		ClearTextField();
 		getData();
 	 
@@ -947,7 +812,7 @@ public class UserControl extends JPanel {
 		Connection conn3;
 		PreparedStatement stmt31,stmt32;
 		ResultSet rs31,rs32,rs33,rs34;
-		String query31="select app_code from inaccount where username=?";
+		String query31="select department from doctor where doctor_id=?";
 		try {
 			
 			conn3 = new DBmanager().getConnMySql();
@@ -955,13 +820,16 @@ public class UserControl extends JPanel {
 			stmt31.setString(1,un); 
 			rs31 = stmt31.executeQuery();
 			String[] parts=null;
+			String ward_from="";
 			while (rs31.next()) {
-				String ward_from="";
+				 
 				if(rs31.getString(1)==null || rs31.getString(1).trim().equals("")){
 					ward_from="01,";
 				}else{
-					ward_from=rs31.getString(1).trim();
+					ward_from+=rs31.getString(1).trim()+",";
+					 
 				}
+				 
 				parts = ward_from.split("\\,");
 				 
 			}
