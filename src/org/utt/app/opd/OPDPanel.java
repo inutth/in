@@ -76,6 +76,7 @@ public class OPDPanel extends JPanel implements  Observer{
 	MedOPDPanel medOPDPanel;
 	OpdFormPanel opdFormPanel;
 	ScanScope scanScope;
+	ScanOPDCardUser scanOPDCardUser;
 	/**
 	 * 
 	 */
@@ -90,6 +91,7 @@ public class OPDPanel extends JPanel implements  Observer{
 		opdFormPanel =new OpdFormPanel(oUserInfo);
 		scanScope =new ScanScope(oUserInfo);
 		medOPDPanel =new MedOPDPanel(oUserInfo);
+		scanOPDCardUser = new ScanOPDCardUser(oUserInfo);
 		split = new JSplitPane(split.HORIZONTAL_SPLIT);
 		split.setDividerLocation((screen.width*2)/10);
 		splitR = new JSplitPane(split.VERTICAL_SPLIT);
@@ -472,9 +474,11 @@ public class OPDPanel extends JPanel implements  Observer{
         tabbedPane.addTab("<html><b>OPD FORM</b></html> " ,new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")),opdFormPanel);
         tabbedPane.addTab("<html><b>EMR</b></html> ",new ImageIcon(getClass().getClassLoader().getResource("images/running.png")) ,mainHDFSOPDPanel);
         //tabbedPane.addTab("<html><b>Old EMR</b></html> ",new ImageIcon(InApp.class.getResource("/org/utt/app/gfx/box.png")) ,mainOldHDFSOPDPanel);
-        tabbedPane.addTab("<html><b>SCAN</b></html> " ,new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")),scanScope);
+        //tabbedPane.addTab("<html><b>SCAN</b></html> " ,new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")),scanScope);
+   
         tabbedPane.addTab("<html><b>MED</b></html> " ,new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")),medOPDPanel);
-
+        tabbedPane.addTab("<html><b>SCAN OPD</b></html> " ,new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")),scanOPDCardUser);
+        
         if(InApp.usertype.trim().equals("83")) {
              tabbedPane.addTab("<html><b>SCAN</b></html> " ,new ImageIcon(getClass().getClassLoader().getResource("images/bullet_black.png")),scanScope);
 

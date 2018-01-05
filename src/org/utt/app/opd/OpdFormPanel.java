@@ -28,11 +28,13 @@ import java.util.Observer;
 import java.util.Vector;
 
 import javax.media.jai.PlanarImage;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -74,6 +76,8 @@ public class OpdFormPanel extends JPanel implements Observer{
 	ImageIcon icon;
 	GregorianCalendar day ;
 	String nameBefore="";
+	JRadioButton smokingButton[]=null,drinkingButton[]=null;
+	ButtonGroup groupsmoking,groupdrinking;
 	/**
 	 *  
 	 */
@@ -148,10 +152,41 @@ public class OpdFormPanel extends JPanel implements Observer{
 				}
 				
 		        if(form_code.equals("00208")){
+		        	mid2 = new JPanel();
+		    		mid2.setBounds(5, 40, (screen.width-(screen.width*2)/10)-285, 410);
+		    		MiddleSection.add(mid2);
+		    		mid2.setLayout(new BorderLayout(0, 0));	
+		    		Label_IMG = new JLabel("");
+		    		Label_IMG.setHorizontalAlignment(SwingConstants.CENTER);
+		    		
+		    		scrollPaneImg = new JScrollPane(Label_IMG);
+		    		mid2.add(scrollPaneImg, BorderLayout.CENTER);
+		    		
+		    		mid1 = new JPanel();
+		    		mid1.setBounds(5, 5, (screen.width-(screen.width*2)/10)-300, 30);
+		    		MiddleSection.add(mid1);
+		    		mid1.setLayout(null);
 					panelreport(form_code,typeofprint,clinic_name,clinic_scan,form_clinic_name,page);
 					
+					mid1.validate();
+					mid1.repaint();
+					mid2.validate();
+					mid2.repaint();
+					MiddleSection.revalidate();
+					MiddleSection.repaint();
+					
 				}else{
+					
+					
+					mid1 = new JPanel();
+					mid1.setBounds(5, 5, (screen.width-(screen.width*2)/10)-300, 400);
+					MiddleSection.add(mid1);
+					mid1.setLayout(null);
+					panelForm(form_code,typeofprint,clinic_name,clinic_scan,form_clinic_name,page);
 					createreport(form_code,typeofprint,clinic_name,clinic_scan,form_clinic_name,page);
+					MiddleSection.revalidate();
+					MiddleSection.repaint();
+					
 					 
 				}
 				 
@@ -175,20 +210,7 @@ public class OpdFormPanel extends JPanel implements Observer{
 		MainSection.add(MiddleSection, BorderLayout.CENTER);
 		MiddleSection.setLayout(null);
 		
-		mid2 = new JPanel();
-		mid2.setBounds(5, 40, (screen.width-(screen.width*2)/10)-285, 410);
-		MiddleSection.add(mid2);
-		mid2.setLayout(new BorderLayout(0, 0));	
-		Label_IMG = new JLabel("");
-		Label_IMG.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		scrollPaneImg = new JScrollPane(Label_IMG);
-		mid2.add(scrollPaneImg, BorderLayout.CENTER);
-		
-		mid1 = new JPanel();
-		mid1.setBounds(5, 5, (screen.width-(screen.width*2)/10)-300, 30);
-		MiddleSection.add(mid1);
-		mid1.setLayout(null);
+		 
 
 		 
 		
@@ -525,6 +547,59 @@ public class OpdFormPanel extends JPanel implements Observer{
 			e.printStackTrace();
 		}
     	
+	}
+	public void panelForm(final String formcode,final String type,final String clinic_name,final String clinic_scan,final String form_clinic_name,final String page){
+		String [] smoking={"ไม่สูบ","สูบนานๆครั้ง","สูบเป็นครั้งคราว","สูบประจำ","ปัจจุบันเลิกสูบแล้ว"};
+		String [] drinking={"ไม่ดื่ม","ดื่มนานๆครั้ง","ดื่มเป็นครั้งคราว","ดื่มประจำ","ปัจจุบันเลิกดื่มแล้ว"};
+		String [] dmhx={"มี","ไม่มี","ไม่ทราบ"};
+		String [] hthx={"มี","ไม่มี","ไม่ทราบ"};
+		String [] emo1={"มี","ไม่มี"};
+		String [] emo2={"มี","ไม่มี"};
+		
+		JLabel Label_1= new JLabel("ประวัติการสูบบุหร๊่");
+		Label_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		Label_1.setBounds(20, 5, 150, 23);
+		mid1.add(Label_1);
+		int l_smoking=smoking.length;
+		smokingButton=new JRadioButton [l_smoking];
+		groupsmoking = new ButtonGroup();
+		for(int row=0;row<l_smoking;row++){
+			int x=30;
+			smokingButton[row] = new JRadioButton(smoking[row]);
+			smokingButton[row].setBounds(x+(row*150),30,150,20);
+			smokingButton[row].setBackground(Setup.getColor());
+			smokingButton[row].setFont(new Font("Tahoma", Font.PLAIN, 13));
+			smokingButton[row].setActionCommand( smokingButton[row].getText() );
+			//smokingButton[row].addActionListener(this); 
+			mid1.add(smokingButton[row]);
+			groupsmoking.add(smokingButton[row]);
+		}
+		
+		JLabel Label_2= new JLabel("ประวัติการสุรา");
+		Label_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		Label_2.setBounds(20, 50, 150, 23);
+		mid1.add(Label_2);
+		int l_drinking=drinking.length;
+		drinkingButton=new JRadioButton [l_drinking];
+		groupdrinking= new ButtonGroup();
+		for(int row=0;row<l_drinking;row++){
+			int x=30;
+			drinkingButton[row] = new JRadioButton(drinking[row]);
+			drinkingButton[row].setBounds(x+(row*150),75,150,20);
+			drinkingButton[row].setBackground(Setup.getColor());
+			drinkingButton[row].setFont(new Font("Tahoma", Font.PLAIN, 13));
+			drinkingButton[row].setActionCommand( drinkingButton[row].getText() );
+			//smokingButton[row].addActionListener(this); 
+			mid1.add(drinkingButton[row]);
+			groupdrinking.add(drinkingButton[row]);
+		}
+		
+		
+		
+		mid1.validate();
+		mid1.repaint();
+		
+		System.out.println("formcode"+formcode);
 	}
 
 }

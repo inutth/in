@@ -3575,8 +3575,8 @@ public class DentalFormPanel extends JPanel implements Observer,ActionListener,M
 				report.setDataSource(new JREmptyDataSource());
 				
 				// System.out.println("NAME... "+name+"--"+hn+"-- vn "+vn);
-				//report.print(true);
-				report.show(false);
+				report.print(true);
+				//report.show(false);
 			} catch (DRException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -3601,8 +3601,8 @@ public class DentalFormPanel extends JPanel implements Observer,ActionListener,M
 				report.setDataSource(new JREmptyDataSource());
 				
 				 System.out.println("NAME... "+oUserInfo.GetPtName()+"--"+oUserInfo.GetPtHN()+"-- vn "+oUserInfo.GetPtVN());
-				//report.print(true);
-				report.show(false);
+				report.print(true);
+				//report.show(false);
 			} catch (DRException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
