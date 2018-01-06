@@ -11,24 +11,36 @@ import java.sql.SQLException;
 
 import javax.swing.JInternalFrame;
 
+import org.utt.app.appmnt.CCalendar;
+import org.utt.app.appmnt.CalendarManager;
+import org.utt.app.appmnt.MainCalendarPanel;
 import org.utt.app.dao.DBmanager;
 import org.utt.app.opd.ObjectOPD;
 import org.utt.app.util.I18n;
 
 public class AppMntFrame extends JInternalFrame {
 
-	Dimension screen;
-	AppMntPanel appMntPanel;
+	
 	ObjectOPD objectData;
+	
+	public Integer frameWidth, frameHeight;
+	public MainCalendarPanel mainPanel;
+	public CCalendar calendar;
+    public CalendarManager manager;
 	
 
 	/**
 	 * 
 	 */
 	public AppMntFrame() {
-		screen = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(0, 0, screen.width-5, screen.height-100);
-        setPreferredSize(new Dimension(screen.width-5, screen.height-100));
+		calendar = new CCalendar();
+        manager = new CalendarManager();
+        setFrameDimension(false);
+        setLayout(null);
+		//screen = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(0, 0, frameWidth, frameHeight);
+        setPreferredSize(new Dimension(frameWidth, frameHeight));
+		 
 		setTitle(I18n.lang("dental.title"));
 	    setLocation(0, 0);
 
@@ -39,20 +51,48 @@ public class AppMntFrame extends JInternalFrame {
 	    setResizable(false);
 	    setDefaultCloseOperation(HIDE_ON_CLOSE);
 	    
-	    getContentPane().setLayout(new BorderLayout(0, 0));
+	     
+	    
+	    mainPanel = new MainCalendarPanel(AppMntFrame.this);
+        setContentPane(mainPanel);
+        //getContentPane().add(mainPanel);
 	    
 	    objectData = new ObjectOPD();
-	    appMntPanel = new AppMntPanel(objectData);
-	    objectData.addObserver(appMntPanel);
-	    getContentPane().add(appMntPanel, BorderLayout.CENTER);
+	    ///appMntPanel = new AppMntPanel(objectData);
+	    //objectData.addObserver(appMntPanel);
+	    //getContentPane().add(appMntPanel, BorderLayout.CENTER);
+	   
 
 
 	    setVisible(false);
+	    
+	     
 	     
 	 
 	    
     	
 	}
+	public Integer getMainFrameHeight() {
+        return frameHeight;
+    }
+	public Integer getMainFrameWidth() {
+        return frameWidth;
+    }
+	public void setFrameDimension(boolean resized) {
+        if (resized) {
+            // window is being resized
+            Dimension windowSize = getBounds().getSize();
+            frameWidth = (int) windowSize.getWidth();
+            frameHeight = (int) windowSize.getHeight();
+        }
+        else {
+            // first time startup
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            frameWidth = (int) screenSize.getWidth();
+            frameHeight = (int) screenSize.getHeight();
+        }
+    }
+	 
 
 
 }
